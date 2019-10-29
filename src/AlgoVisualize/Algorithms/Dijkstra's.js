@@ -9,13 +9,6 @@ export default class Dijkstra {
     // this.vis = [rows][cols];
     // this.vis = this.vis.map(row => { return row.map(node => {return false} ) });
     this.unvisnodes = this.getNodes();
-    this.dist = [];
-    for (var i = 0; i < this.rows; i++) {
-      var row = [];
-      for (var j = 0; j < this.cols; j++) row.push(this.INFI);
-      this.dist.push(row);
-    }
-    this.dist[source.row][source.col] = 0;
     this.visnodesinorder = [];
   }
 
@@ -92,14 +85,12 @@ export default class Dijkstra {
         ) {
           if (this.dist[x + dx][y + dy] > node.dist + 1) {
             const neighbour = this.grid[x + dx][y + dy];
-            neighbour.dist = this.dist[x + dx][y + dy]; // optional
             const index = this.doesExistNode(neighbour);
 
             if (index !== -1) {
               this.unvisnodes.splice(index, index);
             }
-            this.dist[x + dx][y + dy] = node.dist + 1;
-            neighbour.dist = this.dist[x + dx][y + dy];
+            neighbour.dist = node.dist + 1;
             this.unvisnodes.push(neighbour);
           }
         }
