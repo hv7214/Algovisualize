@@ -1,136 +1,148 @@
-import React, { Component } from 'react'
-import Node from './Node/Node';
-import Dikstra from './Algorithms/Dikstra\'s';
+import React, { Component } from "react";
+import Node from "./Node/Node";
+import Dijkstra from "./Algorithms/Dijkstra's";
+import "./Algovisualize.css";
 
 class Algovisualize extends Component {
-  
   constructor(props) {
     super();
     this.state = {
       rows: 35,
-      cols: 50,
+      cols: 30,
       source: {
-        x: 3,
+        x: 5,
         y: 5
       },
       destination: {
-        x: 20,
-        y: 13
+        x: 10,
+        y: 31
       },
       grid: [],
       onMouseIsPressed: false
-    }
+    };
   }
 
   componentDidMount() {
     const grid = this.initgrid();
-    this.setState({grid: grid});
-    this.setState({source: this.props.source});
-    this.setState({destination: this.props.destination});
+    this.setState({ grid: grid });
+    // this.setState({ source: this.props.source });
+    // this.setState({ destination: this.props.destination });
   }
 
-  onMouseDown = (event) => {
+  onMouseDown = event => {
     console.log("md");
     this.toggleWall(event);
-    this.setState({onMouseIsPressed: true});
-  }
+    this.setState({ onMouseIsPressed: true });
+  };
 
-  onMouseUp = (event) => {
+  onMouseUp = event => {
     console.log("mu");
-    this.setState({onMouseIsPressed: false});
-  }
+    this.setState({ onMouseIsPressed: false });
+  };
 
-  onMouseEnter = (event) => {
+  onMouseEnter = event => {
     console.log("enter");
-    if(!this.state.onMouseIsPressed) return;
+    if (!this.state.onMouseIsPressed) return;
 
     this.toggleWall(event);
-  }
+  };
 
   createNode = (row, col, isSource, isDestination, isWall) => {
     return {
-      row:row, 
-      col:col, 
-      onMouseUp:this.onMouseUp,
-      onMouseDown:this.onMouseDown, 
-      onMouseEnter:this.onMouseEnter, 
-      isSource:isSource,
-      isWall:isWall,
-      isDestination:isDestination,
-      
-    }
-  }
+      row: row,
+      col: col,
+      onMouseUp: this.onMouseUp,
+      onMouseDown: this.onMouseDown,
+      onMouseEnter: this.onMouseEnter,
+      isSource: isSource,
+      isWall: isWall,
+      isDestination: isDestination
+    };
+  };
 
-  toggleWall = (event) => {
+  toggleWall = event => {
     const clickedNode = event.target;
     const id = clickedNode.id;
     const idSplit = id.split("-");
 
-    const r = parseInt(idSplit[1]), c = parseInt(idSplit[2]);
+    const r = parseInt(idSplit[1]),
+      c = parseInt(idSplit[2]);
     var grid = this.state.grid;
 
     var toggleWall = "true";
-    
-    if (grid[r * this.state.cols + c].isSource === "true" || grid[r * this.state.cols + c].isDestination === "true") return;
 
-    if (grid[r * this.state.cols + c].isWall === "true")
-      toggleWall = "false";
+    if (grid[r][c].isSource === "true" || grid[r][c].isDestination === "true")
+      return;
 
-    grid[r * this.state.cols + c] = this.createNode(r, c, "false", "false", toggleWall);
+    if (grid[r][c].isWall === "true") toggleWall = "false";
 
-    this.setState({grid: grid})
-  } 
+    grid[r][c] = this.createNode(r, c, "false", "false", toggleWall);
+
+    this.setState({ grid: grid });
+  };
 
   initgrid = () => {
-    
     var grid = [];
-    for(var i = 0; i < this.state.rows; i++)
-        for(var j = 0; j < this.state.cols; j++) {
-            grid.push(this.createNode(i, j, "false", "false", "false"));
-        }
-    
+    for (var i = 0; i < this.state.rows; i++) {
+      var row = [];
+      for (var j = 0; j < this.state.cols; j++) {
+        row.push(this.createNode(i, j, "false", "false", "false"));
+      }
+      grid.push(row);
+    }
+
     const sx = this.state.source.x;
     const sy = this.state.source.y;
-    grid[sx * this.state.cols + sy] = this.createNode(sx, sy, "true", "false", "false");
+    grid[sx][sy] = this.createNode(sx, sy, "true", "false", "false");
 
     const dx = this.state.destination.x;
     const dy = this.state.destination.y;
-    grid[ dx * this.state.cols + dy] = this.createNode(dx, dy, "false", "true", "false");
+    grid[dx][dy] = this.createNode(dx, dy, "false", "true", "false");
 
-    return grid;    
-  }
-  
+    return grid;
+  };
+
   visualizeDijkstra = () => {
-
-
-  }
+    const { grid, rows, cols, source, destination } = this.state;
+    console.log(source);
+    var dijkstra = new Dijkstra(
+      grid,
+      rows,
+      cols,
+      grid[source.x][source.y],
+      grid[destination.x][destination.y]
+    );
+    console.log(dijkstra.findShortestPath());
+  };
 
   render() {
-
     return (
       <>
+        <button onClick={() => this.visualizeDijkstra()}>
+          Visualize Dijkstra's Algorithm
+        </button>
 
-      <button onClick={() => this.visualizeDijkstra()}>
-      Visualize Dijkstra's Algorithm
-      </button>
-      
-      <div className="grid">
-        {this.state.grid.map(node => { return (<Node 
-                                                row={node.row} 
-                                                col={node.col} 
-                                                key={`${node.row}-${node.col}`} 
-                                                isSource={node.isSource} 
-                                                isDestination={node.isDestination}        
-                                                isWall={node.isWall}
-                                                onMouseDown={this.onMouseDown}
-                                                onMouseEnter={this.onMouseEnter}
-                                                onMouseUp={this.onMouseUp}
-                                                />) 
-                                      } )}       
-      </div>
-
+        <div className="grid">
+          {this.state.grid.map(row => {
+            return row.map(node => {
+              return (
+                <Node
+                  row={node.row}
+                  col={node.col}
+                  key={`${node.row}-${node.col}`}
+                  isSource={node.isSource}
+                  isDestination={node.isDestination}
+                  isWall={node.isWall}
+                  onMouseDown={this.onMouseDown}
+                  onMouseEnter={this.onMouseEnter}
+                  onMouseUp={this.onMouseUp}
+                />
+              );
+            });
+          })}
+        </div>
       </>
-    )
+    );
   }
 }
 
