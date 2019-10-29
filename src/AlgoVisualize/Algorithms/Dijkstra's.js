@@ -22,21 +22,27 @@ export default class Dijkstra {
   getNodes() {
     var nodes = [];
 
-    this.grid.map(row => {
+    this.grid = this.grid.map(row => {
       return row.map(node => {
         node.dist = this.INFI;
         return node;
       });
     });
 
-    this.grid[this.source.row][this.source.col] = 0;
+    this.grid[this.source.row][this.source.col].dist = 0;
 
-    this.grid.forEach(row =>
-      row.forEach(node => {
-        nodes.push(node);
-      })
-    );
-
+    for (var i = 0; i < this.rows; i++) {
+      var row = this.grid[i];
+      for (var j = 0; j < this.cols; j++) {
+        nodes.push(row[j]);
+      }
+    }
+    // this.grid.forEach(row =>          // giving 1051 length instead of 1050
+    //   row.forEach(node => {
+    //     nodes.push(node);
+    //   })
+    // );
+    console.log(nodes);
     return nodes;
   }
 
@@ -48,17 +54,17 @@ export default class Dijkstra {
     var runtimepreventer = 0;
     while (!!this.unvisnodes) {
       runtimepreventer++;
-      if (runtimepreventer > 5000) return;
+      if (runtimepreventer > 10000) return;
 
       this.heapify();
 
-      const node = this.unvisnodes.splice(0, 0);
+      var node = this.unvisnodes.splice(0, 0);
       if (node.isWall === "true") continue;
 
       this.updateNeighbours(node);
       this.visnodesinorder.push(node);
 
-      if (node === this.dest || this.dist[node.row][node.col] === this.INFI)
+      if (node === this.dest || node.dist === this.INFI)
         return this.visnodesinorder;
     }
   }
