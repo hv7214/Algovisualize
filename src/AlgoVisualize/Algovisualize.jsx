@@ -130,7 +130,7 @@ class Algovisualize extends Component {
     // console.log(node);
     setTimeout(() => {
       this.animateVisnodes(list);
-    }, 50);
+    }, 100);
   };
 
   render() {

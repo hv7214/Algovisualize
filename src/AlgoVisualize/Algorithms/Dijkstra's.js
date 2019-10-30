@@ -30,12 +30,7 @@ export default class Dijkstra {
         nodes.push(row[j]);
       }
     }
-    // this.grid.forEach(row =>          // giving 1051 length instead of 1050
-    //   row.forEach(node => {
-    //     nodes.push(node);
-    //   })
-    // );
-    // console.log(nodes);
+
     return nodes;
   }
 
@@ -54,6 +49,7 @@ export default class Dijkstra {
       // console.log(this.unvisnodes);
       var node = this.unvisnodes.splice(0, 1)[0];
       if (node.isWall === "true") continue;
+      if (node.dist === this.INFI) return;
 
       this.updateNeighbours(node);
       this.visnodesinorder.push(node);
@@ -62,7 +58,6 @@ export default class Dijkstra {
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visnodesinorder;
     }
-    return this.visnodesinorder;
   }
 
   doesExistNode(node) {
