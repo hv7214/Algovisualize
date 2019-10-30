@@ -1,3 +1,7 @@
 .grid {
     margin-top: 100px;
 }
+
+.space {
+    user-select: none;
+}

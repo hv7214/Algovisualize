@@ -48,7 +48,7 @@ export default class Dijkstra {
 
     while (this.unvisnodes.length !== 0) {
       runtimepreventer++;
-      if (runtimepreventer > 10000) return;
+      if (runtimepreventer > 5000) return;
 
       this.heapify();
       // console.log(this.unvisnodes);
@@ -58,19 +58,21 @@ export default class Dijkstra {
       this.updateNeighbours(node);
       this.visnodesinorder.push(node);
 
-      console.log(node);
+      // console.log(node);
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visnodesinorder;
     }
-    // return this.visnodesinorder;
+    return this.visnodesinorder;
   }
 
   doesExistNode(node) {
     this.unvisnodes.forEach((elem, index) => {
-      if (node === elem) return index;
+      if (node.row === elem.row && node.col === elem.col) return index;
     });
     return -1;
   }
+
+  getUnvisNode(row, col) {}
 
   updateNeighbours(node) {
     const dx = [1, -1, 0];
@@ -78,8 +80,8 @@ export default class Dijkstra {
 
     dx.forEach(delx => {
       dy.forEach(dely => {
-        const x = node.x,
-          y = node.y;
+        const x = node.row,
+          y = node.col;
 
         if (
           x + delx >= 0 &&
@@ -87,15 +89,17 @@ export default class Dijkstra {
           y + dely < this.cols &&
           y + dely >= 0
         ) {
-          if (this.dist[x + delx][y + dely] > node.dist + 1) {
-            const neighbour = this.grid[x + delx][y + dely];
+          const neighbour = this.grid[x + delx][y + dely];
+
+          if (neighbour.dist > node.dist + 1) {
             const index = this.doesExistNode(neighbour);
 
-            if (index !== -1) {
-              this.unvisnodes.splice(index, index + 1);
-            }
+            // if (index !== -1) {
+            //   this.unvisnodes.splice(index, index + 1);
+            // }
             neighbour.dist = node.dist + 1;
-            this.unvisnodes.push(neighbour);
+            this.unvisnodes[index] = neighbour;
+            this.grid[x + delx][y + dely] = neighbour;
           }
         }
       });
