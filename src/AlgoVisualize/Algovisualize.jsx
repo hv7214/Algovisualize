@@ -15,7 +15,7 @@ class Algovisualize extends Component {
       },
       destination: {
         x: 10,
-        y: 10
+        y: 16
       },
       grid: [],
       onMouseIsPressed: false
@@ -57,7 +57,8 @@ class Algovisualize extends Component {
       isSource: isSource,
       isWall: isWall,
       isVisited: isVisited,
-      isDestination: isDestination
+      isDestination: isDestination,
+      prevNode: null
     };
   };
 
@@ -114,11 +115,15 @@ class Algovisualize extends Component {
       grid[destination.x][destination.y]
     );
     var visNodesList = dijkstra.findShortestPath();
-    this.animateVisnodes(visNodesList);
+    var shortestPath = dijkstra.getShortestPathList();
+    console.log(shortestPath);
+    this.animateVisnodes(visNodesList, shortestPath);
   };
 
-  animateVisnodes = list => {
-    if (typeof list === "undefined" || list.length === 0) return;
+  animateVisnodes = (list, shortestPath) => {
+    if (typeof list === "undefined" || list.length === 0) {
+      return;
+    }
 
     const node = list.splice(0, 1)[0];
     node.isVisited = "true";
