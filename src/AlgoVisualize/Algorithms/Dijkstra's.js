@@ -35,7 +35,7 @@ export default class Dijkstra {
     //     nodes.push(node);
     //   })
     // );
-    console.log(nodes);
+    // console.log(nodes);
     return nodes;
   }
 
@@ -45,21 +45,24 @@ export default class Dijkstra {
 
   findShortestPath() {
     var runtimepreventer = 0;
-    while (!!this.unvisnodes) {
+
+    while (this.unvisnodes.length !== 0) {
       runtimepreventer++;
       if (runtimepreventer > 10000) return;
 
       this.heapify();
-
-      var node = this.unvisnodes.splice(0, 0);
+      // console.log(this.unvisnodes);
+      var node = this.unvisnodes.splice(0, 1)[0];
       if (node.isWall === "true") continue;
 
       this.updateNeighbours(node);
       this.visnodesinorder.push(node);
 
-      if (node === this.dest || node.dist === this.INFI)
+      console.log(node);
+      if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visnodesinorder;
     }
+    // return this.visnodesinorder;
   }
 
   doesExistNode(node) {
@@ -77,18 +80,19 @@ export default class Dijkstra {
       dy.forEach(dely => {
         const x = node.x,
           y = node.y;
+
         if (
-          x + dx >= 0 &&
-          x + dx < this.rows &&
-          y + dy < this.cols &&
-          y + dy >= 0
+          x + delx >= 0 &&
+          x + delx < this.rows &&
+          y + dely < this.cols &&
+          y + dely >= 0
         ) {
-          if (this.dist[x + dx][y + dy] > node.dist + 1) {
-            const neighbour = this.grid[x + dx][y + dy];
+          if (this.dist[x + delx][y + dely] > node.dist + 1) {
+            const neighbour = this.grid[x + delx][y + dely];
             const index = this.doesExistNode(neighbour);
 
             if (index !== -1) {
-              this.unvisnodes.splice(index, index);
+              this.unvisnodes.splice(index, index + 1);
             }
             neighbour.dist = node.dist + 1;
             this.unvisnodes.push(neighbour);
