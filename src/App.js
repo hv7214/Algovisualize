@@ -1,6 +1,6 @@
-import React from 'react';
-import './App.css';
-import AlgoVisualize from './AlgoVisualize/Algovisualize';
+import React from "react";
+import "./App.css";
+import AlgoVisualize from "./Components/AlgoVisualize/Algovisualize";
 
 function App() {
   return (

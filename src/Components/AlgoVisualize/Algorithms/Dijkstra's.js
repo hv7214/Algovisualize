@@ -6,8 +6,6 @@ export default class Dijkstra {
     this.cols = cols;
     this.source = source;
     this.dest = dest;
-    // this.vis = [rows][cols];
-    // this.vis = this.vis.map(row => { return row.map(node => {return false} ) });
     this.unvisnodes = this.getNodes();
     this.visnodesinorder = [];
   }

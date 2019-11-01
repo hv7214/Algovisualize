@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Node from "./Node/Node";
 import Dijkstra from "./Algorithms/Dijkstra's";
 import "./Algovisualize.css";
+import Navbar from "../Navbar/Navbar";
 
 class Algovisualize extends Component {
   constructor(props) {
@@ -30,18 +31,15 @@ class Algovisualize extends Component {
   }
 
   onMouseDown = event => {
-    console.log("md");
     this.toggleWall(event);
     this.setState({ onMouseIsPressed: true });
   };
 
   onMouseUp = event => {
-    console.log("mu");
     this.setState({ onMouseIsPressed: false });
   };
 
   onMouseEnter = event => {
-    console.log("enter");
     if (!this.state.onMouseIsPressed) return;
 
     this.toggleWall(event);
@@ -151,7 +149,7 @@ class Algovisualize extends Component {
     );
     var visNodesList = dijkstra.findShortestPath();
     var shortestPath = dijkstra.getShortestPathList();
-    console.log(shortestPath);
+
     this.animateVisnodes(visNodesList, shortestPath);
   };
 
@@ -168,14 +166,12 @@ class Algovisualize extends Component {
     grid[node.row][node.col] = node;
     this.setState({ grid: grid });
 
-    // console.log(node);
     setTimeout(() => {
       this.animateVisnodes(list, shortestPath);
     }, 50);
   };
 
   animateShortestPath = shortestPath => {
-    console.log("fired");
     if (typeof shortestPath === "undefined" || shortestPath.length === 0)
       return;
 
@@ -197,10 +193,7 @@ class Algovisualize extends Component {
 
     return (
       <>
-        <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Dijkstra's Algorithm
-        </button>
-
+        <Navbar />
         <div className="grid">
           {this.state.grid.map(row => {
             return row.map(node => {

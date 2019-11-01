@@ -1,0 +1,70 @@
+@import url(https://fonts.googleapis.com/css?family=Anonymous+Pro);
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  font-family: "Anonymous Pro";
+  font-size: 18px;
+  padding: 2px;
+  margin: 0;
+  background-color: rgb(115, 148, 247);
+}
+
+.navitems {
+  margin-right: 30px;
+}
+
+.btn {
+  font-family: "Anonymous Pro";
+  background-color: rgb(144, 184, 144);
+  border-width: 0;
+  height: 30px;
+}
+.btn:hover {
+  background-color: rgb(107, 196, 107);
+}
+#homelink {
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.list {
+  list-style-type: none;
+}
+
+#dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+#dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
