@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Node from "./Node/Node";
 import Dijkstra from "./Algorithms/Dijkstra's";
+import Astar from "./Algorithms/Astar";
 import "./Algovisualize.css";
 import Navbar from "../Navbar/Navbar";
 
@@ -140,7 +141,6 @@ class Algovisualize extends Component {
 
   visualizeDijkstra = () => {
     const { grid, rows, cols, source, destination } = this.state;
-
     var dijkstra = new Dijkstra(
       grid,
       rows,
@@ -154,7 +154,20 @@ class Algovisualize extends Component {
     this.animateVisnodes(visNodesList, shortestPath);
   };
 
-  visualizeAstar = () => {};
+  visualizeAstar = () => {
+    const { grid, rows, cols, source, destination } = this.state;
+    var astar = new Astar(
+      grid,
+      rows,
+      cols,
+      grid[source.x][source.y],
+      grid[destination.x][destination.y]
+    );
+
+    var visNodesList = astar.findShortestPath();
+    var shortestPath = astar.getShortestPathList();
+    this.animateVisnodes(visNodesList, shortestPath);
+  };
 
   animateVisnodes = (list, shortestPath) => {
     if (typeof list === "undefined" || list.length === 0) {
@@ -171,7 +184,7 @@ class Algovisualize extends Component {
 
     setTimeout(() => {
       this.animateVisnodes(list, shortestPath);
-    }, 30);
+    }, 20);
   };
 
   animateShortestPath = shortestPath => {

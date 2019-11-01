@@ -80,14 +80,15 @@ export default class Dijkstra {
           y + dely >= 0
         ) {
           const neighbour = this.grid[x + delx][y + dely];
+          const deld = Math.abs(delx) === 1 && Math.abs(dely) === 1 ? 1.4 : 1;
 
-          if (neighbour.dist > node.dist + 1) {
+          if (neighbour.dist > node.dist + deld) {
             const index = this.doesExistNode(neighbour);
             neighbour.prevNode = node;
-            neighbour.dist =
-              node.dist +
-              (Math.abs(delx) === 1 && Math.abs(dely) === 1 ? 1.4 : 1);
-            this.unvisnodes[index] = neighbour;
+            neighbour.dist = node.dist + deld;
+            index !== -1
+              ? (this.unvisnodes[index] = neighbour)
+              : this.unvisnodes.push(neighbour);
             this.grid[x + delx][y + dely] = neighbour;
           }
         }
