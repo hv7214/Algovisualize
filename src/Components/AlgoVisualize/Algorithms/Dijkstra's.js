@@ -13,19 +13,13 @@ export default class Dijkstra {
   getNodes() {
     var nodes = [];
 
-    this.grid = this.grid.map(row => {
-      return row.map(node => {
-        node.dist = this.INFI;
-        return node;
-      });
-    });
-
     this.grid[this.source.row][this.source.col].dist = 0;
 
     for (var i = 0; i < this.rows; i++) {
-      var row = this.grid[i];
       for (var j = 0; j < this.cols; j++) {
-        nodes.push(row[j]);
+        if (i !== this.source.row || j !== this.source.col)
+          this.grid[i][j].dist = this.INFI;
+        nodes.push(this.grid[i][j]);
       }
     }
 

@@ -3,14 +3,15 @@ import "./Navbar.css";
 
 class Navbar extends Component {
   state = {
-    algorithm: {
-      dijkstra: false,
-      astar: false
-    }
+    algorithm: "none"
   };
 
   visualize = () => {
     this.props.visualize(this.state.algorithm);
+  };
+
+  clear = () => {
+    this.props.clear();
   };
 
   render() {
@@ -21,20 +22,27 @@ class Navbar extends Component {
         </div>
         <div className="navitems" id="dropdown">
           <button className="dropbtn btn">
-            Algorithms <i class="fa fa-caret-down"></i>
+            Algorithms <i className="fa fa-caret-down"></i>
           </button>
-          <div class="dropdown-content">
-            <a href="asd">Link 1</a>
-            <a href="asd">Link 2</a>
-            <a href="asd">Link 3</a>
+          <div className="dropdown-content">
+            <div onClick={() => this.setState({ algorithm: "dijkstra" })}>
+              Dijkstra's
+            </div>
+            <div onClick={() => this.setState({ algorithm: "astar" })}>
+              Astar
+            </div>
           </div>
         </div>
         <div>
           {" "}
-          <button className="btn visualize" onClick={() => this.visualize}>
+          <button className="navitems btn visualize" onClick={this.visualize}>
             {" "}
             Visualize{" "}
-          </button>{" "}
+          </button>
+          <button className="navitems btn" onClick={this.clear}>
+            {" "}
+            Clear
+          </button>
         </div>
       </nav>
     );

@@ -19,7 +19,8 @@ class Algovisualize extends Component {
         y: 16
       },
       grid: [],
-      onMouseIsPressed: false
+      onMouseIsPressed: false,
+      IsRunning: false
     };
   }
 
@@ -153,6 +154,8 @@ class Algovisualize extends Component {
     this.animateVisnodes(visNodesList, shortestPath);
   };
 
+  visualizeAstar = () => {};
+
   animateVisnodes = (list, shortestPath) => {
     if (typeof list === "undefined" || list.length === 0) {
       this.animateShortestPath(shortestPath);
@@ -168,13 +171,14 @@ class Algovisualize extends Component {
 
     setTimeout(() => {
       this.animateVisnodes(list, shortestPath);
-    }, 50);
+    }, 30);
   };
 
   animateShortestPath = shortestPath => {
-    if (typeof shortestPath === "undefined" || shortestPath.length === 0)
+    if (typeof shortestPath === "undefined" || shortestPath.length === 0) {
+      this.setState({ IsRunning: false });
       return;
-
+    }
     var node = shortestPath.splice(0, 1)[0];
     node.isShortest = "true";
     node.isVisited = "false";
@@ -188,12 +192,49 @@ class Algovisualize extends Component {
     }, 100);
   };
 
+  runChecks = algorithm => {
+    return this.state.IsRunning || algorithm === "none";
+  };
+
+  visualize = algorithm => {
+    if (this.runChecks(algorithm)) return;
+    this.setState({ IsRunning: true });
+
+    if (algorithm === "dijkstra") {
+      this.visualizeDijkstra();
+    } else if (algorithm === "astar") {
+      this.visualizeAstar();
+    }
+  };
+
+  clearGrid = () => {
+    if (this.state.IsRunning) return;
+
+    this.setState({
+      rows: 35,
+      cols: 30,
+      source: {
+        x: 5,
+        y: 5
+      },
+      destination: {
+        x: 10,
+        y: 16
+      },
+      grid: [],
+      onMouseIsPressed: false,
+      IsRunning: false
+    });
+    const grid = this.initgrid();
+    this.setState({ grid: grid });
+  };
+
   render() {
     const space = " ";
 
     return (
       <>
-        <Navbar />
+        <Navbar visualize={this.visualize} clear={this.clearGrid} />
         <div className="grid">
           {this.state.grid.map(row => {
             return row.map(node => {

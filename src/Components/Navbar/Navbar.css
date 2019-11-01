@@ -15,7 +15,7 @@ html {
   align-items: center;
   font-family: "Anonymous Pro";
   font-size: 18px;
-  padding: 2px;
+  padding: 3px;
   margin: 0;
   background-color: rgb(115, 148, 247);
 }
@@ -29,10 +29,13 @@ html {
   background-color: rgb(144, 184, 144);
   border-width: 0;
   height: 30px;
+  font-size: 20px;
 }
+
 .btn:hover {
   background-color: rgb(107, 196, 107);
 }
+
 #homelink {
   font-size: 25px;
   font-weight: bolder;
@@ -67,4 +70,5 @@ html {
   text-decoration: none;
   display: block;
   text-align: left;
+  font-size: 13px;
 }
