@@ -47,7 +47,15 @@ class Algovisualize extends Component {
     this.toggleWall(event);
   };
 
-  createNode = (row, col, isSource, isDestination, isWall, isVisited) => {
+  createNode = (
+    row,
+    col,
+    isSource,
+    isDestination,
+    isWall,
+    isVisited,
+    isShortest
+  ) => {
     return {
       row: row,
       col: col,
@@ -57,6 +65,7 @@ class Algovisualize extends Component {
       isSource: isSource,
       isWall: isWall,
       isVisited: isVisited,
+      isShortest: isShortest,
       isDestination: isDestination,
       prevNode: null
     };
@@ -78,7 +87,15 @@ class Algovisualize extends Component {
 
     if (grid[r][c].isWall === "true") toggleWall = "false";
 
-    grid[r][c] = this.createNode(r, c, "false", "false", toggleWall, "false");
+    grid[r][c] = this.createNode(
+      r,
+      c,
+      "false",
+      "false",
+      toggleWall,
+      "false",
+      "false"
+    );
 
     this.setState({ grid: grid });
   };
@@ -88,18 +105,36 @@ class Algovisualize extends Component {
     for (var i = 0; i < this.state.rows; i++) {
       var row = [];
       for (var j = 0; j < this.state.cols; j++) {
-        row.push(this.createNode(i, j, "false", "false", "false", "false"));
+        row.push(
+          this.createNode(i, j, "false", "false", "false", "false", "false")
+        );
       }
       grid.push(row);
     }
 
     const sx = this.state.source.x;
     const sy = this.state.source.y;
-    grid[sx][sy] = this.createNode(sx, sy, "true", "false", "false", "false");
+    grid[sx][sy] = this.createNode(
+      sx,
+      sy,
+      "true",
+      "false",
+      "false",
+      "false",
+      "false"
+    );
 
     const dx = this.state.destination.x;
     const dy = this.state.destination.y;
-    grid[dx][dy] = this.createNode(dx, dy, "false", "true", "false", "false");
+    grid[dx][dy] = this.createNode(
+      dx,
+      dy,
+      "false",
+      "true",
+      "false",
+      "false",
+      "false"
+    );
 
     return grid;
   };
@@ -122,10 +157,11 @@ class Algovisualize extends Component {
 
   animateVisnodes = (list, shortestPath) => {
     if (typeof list === "undefined" || list.length === 0) {
+      this.animateShortestPath(shortestPath);
       return;
     }
 
-    const node = list.splice(0, 1)[0];
+    var node = list.splice(0, 1)[0];
     node.isVisited = "true";
 
     var grid = this.state.grid;
@@ -134,7 +170,25 @@ class Algovisualize extends Component {
 
     // console.log(node);
     setTimeout(() => {
-      this.animateVisnodes(list);
+      this.animateVisnodes(list, shortestPath);
+    }, 50);
+  };
+
+  animateShortestPath = shortestPath => {
+    console.log("fired");
+    if (typeof shortestPath === "undefined" || shortestPath.length === 0)
+      return;
+
+    var node = shortestPath.splice(0, 1)[0];
+    node.isShortest = "true";
+    node.isVisited = "false";
+
+    var grid = this.state.grid;
+    grid[node.row][node.col] = node;
+    this.setState({ grid: grid });
+
+    setTimeout(() => {
+      this.animateShortestPath(shortestPath);
     }, 100);
   };
 
@@ -160,6 +214,7 @@ class Algovisualize extends Component {
                     isDestination={node.isDestination}
                     isWall={node.isWall}
                     isVisited={node.isVisited}
+                    isShortest={node.isShortest}
                     onMouseDown={this.onMouseDown}
                     onMouseEnter={this.onMouseEnter}
                     onMouseUp={this.onMouseUp}

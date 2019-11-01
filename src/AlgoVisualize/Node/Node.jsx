@@ -10,6 +10,7 @@ class Node extends Component {
       isDestination,
       isWall,
       isVisited,
+      isShortest,
       onMouseDown,
       onMouseUp,
       onMouseEnter
@@ -20,6 +21,7 @@ class Node extends Component {
     else if (isDestination === "true") className = "destination";
     else if (isWall === "true") className = "wall";
     else if (isVisited === "true") className = "vis";
+    else if (isShortest === "true") className = "shortest";
 
     return (
       <div

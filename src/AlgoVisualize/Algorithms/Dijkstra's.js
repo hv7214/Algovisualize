@@ -68,6 +68,7 @@ export default class Dijkstra {
       shortestPath.push(dest);
       dest = dest.prevNode;
     }
+    shortestPath.reverse();
     return shortestPath;
   }
 
@@ -91,7 +92,9 @@ export default class Dijkstra {
           if (neighbour.dist > node.dist + 1) {
             const index = this.doesExistNode(neighbour);
             neighbour.prevNode = node;
-            neighbour.dist = node.dist + 1;
+            neighbour.dist =
+              node.dist +
+              (Math.abs(delx) === 1 && Math.abs(dely) === 1 ? 1.4 : 1);
             this.unvisnodes[index] = neighbour;
             this.grid[x + delx][y + dely] = neighbour;
           }

@@ -29,6 +29,17 @@
   animation-play-state: running;
 }
 
+.shortest {
+  animation-name: shortestpathAnimation;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+
 @keyframes visitedAnimation {
   0% {
     transform: scale(0.3);
@@ -48,5 +59,27 @@
   100% {
     transform: scale(1);
     background-color: rgba(0, 190, 218, 0.75);
+  }
+}
+
+@keyframes shortestpathAnimation {
+  0% {
+    transform: scale(0.3);
+    background-color: rgb(243, 243, 188);
+    border-radius: 100%;
+  }
+
+  50% {
+    background-color: rgb(240, 240, 126);
+  }
+
+  75% {
+    transform: scale(1.2);
+    background-color: rgb(246, 246, 51);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: rgba(230, 255, 4, 0.75);
   }
 }
