@@ -21,16 +21,22 @@ class Navbar extends Component {
           AlgoVisualizer{" "}
         </div>
         <div className="navitems" id="dropdown">
-          <button className="dropbtn btn">
+          <button className="btn">
             Algorithms <i className="fa fa-caret-down"></i>
           </button>
           <div className="dropdown-content">
-            <div onClick={() => this.setState({ algorithm: "dijkstra" })}>
+            <button
+              className="dropdownbtn"
+              onClick={() => this.setState({ algorithm: "dijkstra" })}
+            >
               Dijkstra's
-            </div>
-            <div onClick={() => this.setState({ algorithm: "astar" })}>
+            </button>
+            <button
+              className="dropdownbtn"
+              onClick={() => this.setState({ algorithm: "astar" })}
+            >
               Astar
-            </div>
+            </button>
           </div>
         </div>
         <div>
