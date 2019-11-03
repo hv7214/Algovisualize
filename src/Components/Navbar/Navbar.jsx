@@ -7,7 +7,8 @@ class Navbar extends Component {
   };
 
   visualize = () => {
-    this.props.visualize(this.state.algorithm);
+    if (this.props.visualize(this.state.algorithm)) return;
+    console.log("changed");
   };
 
   clear = () => {

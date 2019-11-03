@@ -21,7 +21,8 @@ class Algovisualize extends Component {
       },
       grid: [],
       onMouseIsPressed: false,
-      IsRunning: false
+      IsRunning: false,
+      isGridFilled: false
     };
   }
 
@@ -209,14 +210,20 @@ class Algovisualize extends Component {
     return this.state.IsRunning || algorithm === "none";
   };
 
-  async setIsRunning() {
+  setIsRunning() {
     this.setState({ IsRunning: true });
+  }
+  setGridFilled() {
+    this.setState({ isGridFilled: true }, () =>
+      console.log(this.state.isGridFilled)
+    );
   }
 
   visualize = async algorithm => {
     if (this.runChecks(algorithm)) return;
-    this.clearGrid();
-    await this.setIsRunning();
+    if (this.state.isGridFilled) await this.clearGrid();
+    this.setGridFilled();
+    this.setIsRunning();
 
     if (algorithm === "dijkstra") {
       this.visualizeDijkstra();
@@ -225,8 +232,7 @@ class Algovisualize extends Component {
     }
   };
 
-  clearGrid = () => {
-    console.log(this.state.IsRunning);
+  clearGrid = async () => {
     if (this.state.IsRunning) return;
 
     this.setState({
@@ -242,7 +248,8 @@ class Algovisualize extends Component {
       },
       grid: [],
       onMouseIsPressed: false,
-      IsRunning: false
+      IsRunning: false,
+      isGridFilled: false
     });
     const grid = this.initgrid();
     this.setState({ grid: grid });
