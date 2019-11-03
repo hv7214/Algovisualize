@@ -210,26 +210,19 @@ class Algovisualize extends Component {
     return this.state.IsRunning || algorithm === "none";
   };
 
-  setIsRunning() {
-    this.setState({ IsRunning: true });
-  }
-  setGridFilled() {
-    this.setState({ isGridFilled: true }, () =>
-      console.log(this.state.isGridFilled)
-    );
-  }
-
   visualize = async algorithm => {
-    if (this.runChecks(algorithm)) return;
+    if (this.runChecks(algorithm)) return true;
     if (this.state.isGridFilled) await this.clearGrid(true);
-    this.setGridFilled();
-    this.setIsRunning();
 
-    if (algorithm === "dijkstra") {
-      this.visualizeDijkstra();
-    } else if (algorithm === "astar") {
-      this.visualizeAstar();
-    }
+    this.setState({ IsRunning: true }, () => {
+      this.setState({ isGridFilled: true }, () => {
+        if (algorithm === "Dijkstra's") {
+          this.visualizeDijkstra();
+        } else if (algorithm === "Astar") {
+          this.visualizeAstar();
+        }
+      });
+    });
   };
 
   clearGrid = async (partialClear = false) => {

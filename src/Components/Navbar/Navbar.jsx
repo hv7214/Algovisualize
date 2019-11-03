@@ -3,16 +3,24 @@ import "./Navbar.css";
 
 class Navbar extends Component {
   state = {
-    algorithm: "none"
+    algorithm: "none",
+    visualizebtn: "Visualize",
+    isRunning: false
   };
 
-  visualize = () => {
-    if (this.props.visualize(this.state.algorithm)) return;
-    console.log("changed");
+  visualize = async () => {
+    this.setState({ isRunning: true }, () => console.log(this.state.isRunning));
+    await this.props.visualize(this.state.algorithm);
+    console.log("Change");
   };
 
   clear = () => {
     this.props.clear();
+  };
+
+  changeNavState = algorithm => {
+    this.setState({ algorithm: algorithm });
+    this.setState({ visualizebtn: "Visualize " + algorithm });
   };
 
   render() {
@@ -28,13 +36,13 @@ class Navbar extends Component {
           <div className="dropdown-content">
             <button
               className="dropdownbtn"
-              onClick={() => this.setState({ algorithm: "dijkstra" })}
+              onClick={() => this.changeNavState("Dijkstra's")}
             >
               Dijkstra's
             </button>
             <button
               className="dropdownbtn"
-              onClick={() => this.setState({ algorithm: "astar" })}
+              onClick={() => this.changeNavState("Astar")}
             >
               Astar
             </button>
@@ -44,7 +52,7 @@ class Navbar extends Component {
           {" "}
           <button className="navitems btn visualize" onClick={this.visualize}>
             {" "}
-            Visualize{" "}
+            {this.state.visualizebtn}
           </button>
           <button className="navitems btn" onClick={this.clear}>
             {" "}
