@@ -215,7 +215,7 @@ class Algovisualize extends Component {
 
   visualize = async algorithm => {
     if (this.runChecks(algorithm)) return;
-    await this.clearGrid();
+    this.clearGrid();
     await this.setIsRunning();
 
     if (algorithm === "dijkstra") {
@@ -225,7 +225,7 @@ class Algovisualize extends Component {
     }
   };
 
-  clearGrid = async () => {
+  clearGrid = () => {
     console.log(this.state.IsRunning);
     if (this.state.IsRunning) return;
 
