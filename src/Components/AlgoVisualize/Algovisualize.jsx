@@ -221,7 +221,7 @@ class Algovisualize extends Component {
 
   visualize = async algorithm => {
     if (this.runChecks(algorithm)) return;
-    if (this.state.isGridFilled) await this.clearGrid();
+    if (this.state.isGridFilled) await this.clearGrid(true);
     this.setGridFilled();
     this.setIsRunning();
 
@@ -232,8 +232,18 @@ class Algovisualize extends Component {
     }
   };
 
-  clearGrid = async () => {
+  clearGrid = async (partialClear = false) => {
     if (this.state.IsRunning) return;
+
+    var grid = this.initgrid();
+
+    if (partialClear) {
+      this.state.grid.forEach((row, r) => {
+        row.forEach((node, c) => {
+          if (node.isWall === "true") grid[r][c].isWall = "true";
+        });
+      });
+    }
 
     this.setState({
       rows: 35,
@@ -246,13 +256,11 @@ class Algovisualize extends Component {
         x: 10,
         y: 16
       },
-      grid: [],
+      grid: grid,
       onMouseIsPressed: false,
       IsRunning: false,
       isGridFilled: false
     });
-    const grid = this.initgrid();
-    this.setState({ grid: grid });
   };
 
   render() {
