@@ -8,10 +8,11 @@ class Navbar extends Component {
     isRunning: false
   };
 
-  visualize = async () => {
+  visualize = () => {
     this.setState({ isRunning: true }, () => console.log(this.state.isRunning));
-    await this.props.visualize(this.state.algorithm);
-    console.log("Change");
+    this.props.visualize(this.state.algorithm, () => {
+      console.log("Change");
+    });
   };
 
   clear = () => {
@@ -45,6 +46,12 @@ class Navbar extends Component {
               onClick={() => this.changeNavState("Astar")}
             >
               Astar
+            </button>
+            <button
+              className="dropdownbtn"
+              onClick={() => this.changeNavState("Greedy")}
+            >
+              Greedy
             </button>
           </div>
         </div>

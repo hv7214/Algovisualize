@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Node from "./Node/Node";
 import Dijkstra from "./Algorithms/Dijkstra's";
 import Astar from "./Algorithms/Astar";
+import Greedy from "./Algorithms/Greedy";
 import "./Algovisualize.css";
 import Navbar from "../Navbar/Navbar";
 
@@ -140,7 +141,7 @@ class Algovisualize extends Component {
     return grid;
   };
 
-  visualizeDijkstra = () => {
+  visualizeDijkstra = async () => {
     const { grid, rows, cols, source, destination } = this.state;
     var dijkstra = new Dijkstra(
       grid,
@@ -152,10 +153,10 @@ class Algovisualize extends Component {
     var visNodesList = dijkstra.findShortestPath();
     var shortestPath = dijkstra.getShortestPathList();
 
-    this.animateVisnodes(visNodesList, shortestPath);
+    await this.animateVisnodes(visNodesList, shortestPath);
   };
 
-  visualizeAstar = () => {
+  visualizeAstar = async () => {
     const { grid, rows, cols, source, destination } = this.state;
     var astar = new Astar(
       grid,
@@ -167,11 +168,27 @@ class Algovisualize extends Component {
 
     var visNodesList = astar.findShortestPath();
     var shortestPath = astar.getShortestPathList();
-    this.animateVisnodes(visNodesList, shortestPath);
+    await this.animateVisnodes(visNodesList, shortestPath);
   };
 
-  animateVisnodes = (list, shortestPath) => {
+  visualizeGreedy = async () => {
+    const { grid, rows, cols, source, destination } = this.state;
+    var greedy = new Greedy(
+      grid,
+      rows,
+      cols,
+      grid[source.x][source.y],
+      grid[destination.x][destination.y]
+    );
+
+    var visNodesList = greedy.findShortestPath();
+    var shortestPath = greedy.getShortestPathList();
+    await this.animateVisnodes(visNodesList, shortestPath);
+  };
+
+  animateVisnodes = async (list, shortestPath) => {
     if (typeof list === "undefined" || list.length === 0) {
+      // console.log(shortestPath)
       this.animateShortestPath(shortestPath);
       return;
     }
@@ -188,7 +205,7 @@ class Algovisualize extends Component {
     }, 20);
   };
 
-  animateShortestPath = shortestPath => {
+  animateShortestPath = async shortestPath => {
     if (typeof shortestPath === "undefined" || shortestPath.length === 0) {
       this.setState({ IsRunning: false });
       return;
@@ -214,12 +231,14 @@ class Algovisualize extends Component {
     if (this.runChecks(algorithm)) return true;
     if (this.state.isGridFilled) await this.clearGrid(true);
 
-    this.setState({ IsRunning: true }, () => {
-      this.setState({ isGridFilled: true }, () => {
+    this.setState({ IsRunning: true }, async () => {
+      this.setState({ isGridFilled: true }, async () => {
         if (algorithm === "Dijkstra's") {
-          this.visualizeDijkstra();
+          await this.visualizeDijkstra();
         } else if (algorithm === "Astar") {
-          this.visualizeAstar();
+          await this.visualizeAstar();
+        } else if (algorithm === "Greedy") {
+          await this.visualizeGreedy();
         }
       });
     });

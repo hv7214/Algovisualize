@@ -1,4 +1,4 @@
-export default class Astar {
+export default class Greedy {
   constructor(grid, rows, cols, source, dest) {
     this.INFI = 1e5;
     this.grid = grid;
@@ -9,6 +9,12 @@ export default class Astar {
     this.openSet = this.getNodes();
     this.visitedNodes = [];
     this.shortestPath = [];
+    this.vis = [];
+    for (let i = 0; i < this.rows; i++) {
+      let row = [];
+      for (let j = 0; j < this.cols; j++) row.push(false);
+      this.vis.push(row);
+    }
   }
 
   getHeuristicDistance(node) {
@@ -24,17 +30,16 @@ export default class Astar {
     this.grid[this.source.row][this.source.col].f = this.getHeuristicDistance(
       this.source
     );
-    this.grid[this.source.row][this.source.col].g = 0;
 
     for (var i = 0; i < this.rows; i++) {
       for (var j = 0; j < this.cols; j++) {
         if (i !== this.source.row || j !== this.source.col) {
-          this.grid[i][j].f = this.INFI;
-          this.grid[i][j].g = this.INFI;
+          this.grid[i][j].f = this.getHeuristicDistance(this.grid[i][j]);
         }
-        nodes.push(this.grid[i][j]);
       }
     }
+
+    nodes.push(this.grid[this.source.row][this.source.col]);
     return nodes;
   }
 
@@ -46,12 +51,21 @@ export default class Astar {
     while (this.openSet.length !== 0) {
       this.heapify();
       var node = this.openSet.splice(0, 1)[0];
-      if (node.isWall === "true") continue; // checking for wall
+
+      if (node.isWall === "true") continue;
+      this.vis[node.row][node.col] = true;
       this.visitedNodes.push(node);
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visitedNodes;
       this.updateNeighbours(node);
     }
+  }
+
+  doesExistNode(node) {
+    this.visitedNodes.forEach((elem, index) => {
+      if (node.row === elem.row && node.col === elem.col) return index;
+    });
+    return -1;
   }
 
   updateNeighbours(node) {
@@ -69,15 +83,10 @@ export default class Astar {
           y + dely < this.cols &&
           y + dely >= 0
         ) {
+          if (this.vis[x + delx][y + dely]) return;
           const neighbour = this.grid[x + delx][y + dely];
-          const deld = Math.abs(delx) === 1 && Math.abs(dely) === 1 ? 1.4 : 1;
-
-          if (neighbour.g > node.g + deld) {
-            neighbour.prevNode = node;
-            neighbour.g = node.g + deld;
-            neighbour.f = neighbour.g + this.getHeuristicDistance(neighbour);
-            this.grid[x + delx][y + dely] = neighbour;
-          }
+          neighbour.prevNode = node;
+          this.openSet.push(neighbour);
         }
       });
     });
