@@ -47,6 +47,7 @@ export default class Astar {
       this.heapify();
       var node = this.openSet.splice(0, 1)[0];
       if (node.isWall === "true") continue; // checking for wall
+      if (node.f === this.INFI) return this.visitedNodes;
       this.visitedNodes.push(node);
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visitedNodes;

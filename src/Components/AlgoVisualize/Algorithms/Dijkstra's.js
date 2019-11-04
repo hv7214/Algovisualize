@@ -36,10 +36,10 @@ export default class Dijkstra {
 
       var node = this.unvisnodes.splice(0, 1)[0];
       if (node.isWall === "true") continue;
-      if (node.dist === this.INFI) return;
+      if (node.dist >= this.INFI) return this.visitedNodes;
 
-      this.updateNeighbours(node);
       this.visnodesinorder.push(node);
+      this.updateNeighbours(node);
 
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visnodesinorder;

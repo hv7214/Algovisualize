@@ -26,11 +26,9 @@ export default class Greedy {
 
   getNodes() {
     var nodes = [];
-
     this.grid[this.source.row][this.source.col].f = this.getHeuristicDistance(
       this.source
     );
-
     for (var i = 0; i < this.rows; i++) {
       for (var j = 0; j < this.cols; j++) {
         if (i !== this.source.row || j !== this.source.col) {
@@ -38,7 +36,6 @@ export default class Greedy {
         }
       }
     }
-
     nodes.push(this.grid[this.source.row][this.source.col]);
     return nodes;
   }
@@ -59,6 +56,7 @@ export default class Greedy {
         return this.visitedNodes;
       this.updateNeighbours(node);
     }
+    return this.visitedNodes;
   }
 
   doesExistNode(node) {
