@@ -7,7 +7,7 @@ export default class Dijkstra {
     this.source = source;
     this.dest = dest;
     this.unvisnodes = this.getNodes();
-    this.visnodesinorder = [];
+    this.visitedNodes = [];
   }
 
   getNodes() {
@@ -33,16 +33,15 @@ export default class Dijkstra {
   findShortestPath() {
     while (this.unvisnodes.length !== 0) {
       this.heapify();
-
       var node = this.unvisnodes.splice(0, 1)[0];
       if (node.isWall === "true") continue;
-      if (node.dist >= this.INFI) return this.visitedNodes;
+      if (node.dist === this.INFI) return this.visitedNodes;
 
-      this.visnodesinorder.push(node);
+      this.visitedNodes.push(node);
       this.updateNeighbours(node);
 
       if (node.row === this.dest.row && node.col === this.dest.col)
-        return this.visnodesinorder;
+        return this.visitedNodes;
     }
   }
 
