@@ -15,12 +15,12 @@ class Algovisualize extends Component {
       rows: 35,
       cols: 52,
       source: {
-        x: 2,
-        y: 2
+        x: 8,
+        y: 5
       },
       destination: {
-        x: 10,
-        y: 7
+        x: 8,
+        y: 45
       },
       grid: [],
       onMouseIsPressed: false,
