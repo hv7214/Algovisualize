@@ -42,7 +42,7 @@ class Algovisualize extends Component {
       this.toggleWall(event);
     } else if (classname === "source") {
       this.setState({ SourceSelected: true });
-    } else if (classname !== "destination") {
+    } else if (classname === "destination") {
       this.setState({ DestSelected: true });
     }
     this.setState({ onMouseIsPressed: true });
@@ -111,7 +111,10 @@ class Algovisualize extends Component {
       c = parseInt(idSplit[2]);
     var grid = this.state.grid;
 
-    if (this.state.grid[r][c].isSource || this.state.grid[r][c].isDestination)
+    if (
+      this.state.grid[r][c].isSource === "true" ||
+      this.state.grid[r][c].isDestination === "true"
+    )
       return;
 
     var toggleWall = "true";
