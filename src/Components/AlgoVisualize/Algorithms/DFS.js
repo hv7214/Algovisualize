@@ -16,15 +16,16 @@ export default class DFS {
   }
 
   findPath() {
+    this.isVisited[this.source.row][this.source.col] = true;
     while (this.stack.length !== 0) {
       var node = this.stack.splice(0, 1)[0];
       if (node.isWall === "true") continue;
-      this.isVisited[node.row][node.col] = true;
       this.visitedNodes.push(node);
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visitedNodes;
       this.searchNeighbours(node);
     }
+    return this.visitedNodes;
   }
 
   searchNeighbours(node) {
@@ -40,9 +41,11 @@ export default class DFS {
           x + delx >= 0 &&
           x + delx < this.rows &&
           y + dely < this.cols &&
-          y + dely >= 0
+          y + dely >= 0 &&
+          Math.abs(delx - dely) === 1 &&
+          !this.isVisited[x + delx][y + dely]
         ) {
-          if (this.isVisited[x + delx][y + dely]) return;
+          this.isVisited[node.row][node.col] = true;
           var neighbour = this.grid[x + delx][y + dely];
           neighbour.prevNode = node;
           this.stack.unshift(neighbour);

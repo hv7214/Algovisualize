@@ -42,6 +42,7 @@ export default class BFS {
           x + delx < this.rows &&
           y + dely < this.cols &&
           y + dely >= 0 &&
+          Math.abs(delx - dely) === 1 &&
           !this.isVisited[x + delx][y + dely]
         ) {
           this.isVisited[x + delx][y + dely] = true;

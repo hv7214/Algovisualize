@@ -19,8 +19,8 @@ class Algovisualize extends Component {
         y: 5
       },
       destination: {
-        x: 1,
-        y: 8
+        x: 10,
+        y: 16
       },
       grid: [],
       onMouseIsPressed: false,
