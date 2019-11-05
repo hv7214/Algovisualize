@@ -16,15 +16,12 @@ export default class BFS {
   }
 
   findPath() {
-    let runtimechecker = 0;
+    this.isVisited[this.source.row][this.source.col] = true;
     while (this.queue.length !== 0) {
-      runtimechecker++;
-      if (runtimechecker >= 5000) return this.visitedNodes;
       var node = this.queue.splice(0, 1)[0];
       if (node.isWall === "true") continue;
       if (node.row === this.dest.row && node.col === this.dest.col)
         return this.visitedNodes;
-      this.isVisited[node.row][node.col] = true;
       this.visitedNodes.push(node);
       this.searchNeighbours(node);
     }
@@ -44,15 +41,13 @@ export default class BFS {
           x + delx >= 0 &&
           x + delx < this.rows &&
           y + dely < this.cols &&
-          y + dely >= 0
+          y + dely >= 0 &&
+          !this.isVisited[x + delx][y + dely]
         ) {
-          if (this.isVisited[x + delx][y + dely] === true) {
-            console.log(this.isVisited[x + delx][y + dely]);
-            return;
-          }
-          console.log(this.isVisited[x + delx][y + dely]);
+          this.isVisited[x + delx][y + dely] = true;
           let neighbour = this.grid[x + delx][y + dely];
           neighbour.prevNode = node;
+          this.grid[x + delx][y + dely] = neighbour;
           this.queue.push(neighbour);
         }
       });

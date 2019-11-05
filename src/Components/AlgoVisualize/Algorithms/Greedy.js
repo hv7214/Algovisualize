@@ -77,9 +77,9 @@ export default class Greedy {
           x + delx >= 0 &&
           x + delx < this.rows &&
           y + dely < this.cols &&
-          y + dely >= 0
+          y + dely >= 0 &&
+          !this.vis[x + delx][y + dely]
         ) {
-          if (this.vis[x + delx][y + dely]) return;
           let neighbour = this.grid[x + delx][y + dely];
           neighbour.prevNode = node;
           this.openSet.push(neighbour);
