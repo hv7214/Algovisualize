@@ -24,6 +24,8 @@ class Algovisualize extends Component {
       },
       grid: [],
       onMouseIsPressed: false,
+      SourceSelected: false,
+      DestSelected: false,
       IsRunning: false,
       isGridFilled: false
     };
@@ -32,23 +34,48 @@ class Algovisualize extends Component {
   componentDidMount() {
     const grid = this.initgrid();
     this.setState({ grid: grid });
-    // this.setState({ source: this.props.source });
-    // this.setState({ destination: this.props.destination });
   }
 
   onMouseDown = event => {
-    this.toggleWall(event);
+    let classname = event.target.className.split(" ")[1];
+    if (classname !== "source" && classname !== "destination") {
+      this.toggleWall(event);
+    } else if (classname === "source") {
+      this.setState({ SourceSelected: true });
+    } else if (classname !== "destination") {
+      this.setState({ DestSelected: true });
+    }
     this.setState({ onMouseIsPressed: true });
   };
 
   onMouseUp = event => {
-    this.setState({ onMouseIsPressed: false });
+    this.setState({
+      onMouseIsPressed: false,
+      DestSelected: false,
+      SourceSelected: false
+    });
   };
 
   onMouseEnter = event => {
+    let classname = event.target.className.split(" ")[1];
     if (!this.state.onMouseIsPressed) return;
+    if (this.state.SourceSelected && classname !== "destination") {
+      this.toggleSource(event);
+    } else if (this.state.DestSelected && classname !== "source") {
+      this.toggleSource(event);
+    } else {
+      this.toggleWall(event);
+    }
+  };
 
-    this.toggleWall(event);
+  onMouseLeave = event => {
+    let classname = event.target.className.split(" ")[1];
+    if (!this.state.SourceSelected && !this.state.SourceSelected) return;
+    if (classname === "source") {
+      this.toggleSource(event);
+    } else if (classname === "destination") {
+      this.toggleDest(event);
+    }
   };
 
   createNode = (
@@ -84,11 +111,10 @@ class Algovisualize extends Component {
       c = parseInt(idSplit[2]);
     var grid = this.state.grid;
 
-    var toggleWall = "true";
-
-    if (grid[r][c].isSource === "true" || grid[r][c].isDestination === "true")
+    if (this.state.grid[r][c].isSource || this.state.grid[r][c].isDestination)
       return;
 
+    var toggleWall = "true";
     if (grid[r][c].isWall === "true") toggleWall = "false";
 
     grid[r][c] = this.createNode(
@@ -102,6 +128,58 @@ class Algovisualize extends Component {
     );
 
     this.setState({ grid: grid });
+  };
+
+  toggleSource = event => {
+    const clickedNode = event.target;
+    const id = clickedNode.id;
+    const idSplit = id.split("-");
+
+    const r = parseInt(idSplit[1]),
+      c = parseInt(idSplit[2]);
+    var grid = this.state.grid;
+
+    var toggleSource = "true";
+
+    if (grid[r][c].isSource === "true") toggleSource = "false";
+
+    grid[r][c] = this.createNode(
+      r,
+      c,
+      toggleSource,
+      "false",
+      "false",
+      "false",
+      "false"
+    );
+
+    this.setState({ source: { x: r, y: c }, grid: grid });
+  };
+
+  toggleDest = event => {
+    const clickedNode = event.target;
+    const id = clickedNode.id;
+    const idSplit = id.split("-");
+
+    const r = parseInt(idSplit[1]),
+      c = parseInt(idSplit[2]);
+    var grid = this.state.grid;
+
+    var toggleDest = "true";
+
+    if (grid[r][c].isDestination === "true") toggleDest = "false";
+
+    grid[r][c] = this.createNode(
+      r,
+      c,
+      "false",
+      toggleDest,
+      "false",
+      "false",
+      "false"
+    );
+
+    this.setState({ destination: { x: r, y: c }, grid: grid });
   };
 
   initgrid = () => {
@@ -328,6 +406,7 @@ class Algovisualize extends Component {
                     onMouseDown={this.onMouseDown}
                     onMouseEnter={this.onMouseEnter}
                     onMouseUp={this.onMouseUp}
+                    onMouseLeave={this.onMouseLeave}
                   />
                   <span className="space" key={`space-${node.row}-${node.col}`}>
                     {space}

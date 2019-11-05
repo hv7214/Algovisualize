@@ -13,7 +13,8 @@ class Node extends Component {
       isShortest,
       onMouseDown,
       onMouseUp,
-      onMouseEnter
+      onMouseEnter,
+      onMouseLeave
     } = this.props;
     var className = "";
 
@@ -30,6 +31,7 @@ class Node extends Component {
         onMouseDown={onMouseDown}
         onMouseEnter={onMouseEnter}
         onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
       ></div>
     );
   }
