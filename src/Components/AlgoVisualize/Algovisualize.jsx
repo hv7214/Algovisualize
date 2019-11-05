@@ -3,6 +3,8 @@ import Node from "./Node/Node";
 import Dijkstra from "./Algorithms/Dijkstra's";
 import Astar from "./Algorithms/Astar";
 import Greedy from "./Algorithms/Greedy";
+import BFS from "./Algorithms/BFS";
+import DFS from "./Algorithms/DFS";
 import "./Algovisualize.css";
 import Navbar from "../Navbar/Navbar";
 
@@ -17,8 +19,8 @@ class Algovisualize extends Component {
         y: 5
       },
       destination: {
-        x: 10,
-        y: 16
+        x: 8,
+        y: 8
       },
       grid: [],
       onMouseIsPressed: false,
@@ -186,6 +188,37 @@ class Algovisualize extends Component {
     await this.animateVisnodes(visNodesList, shortestPath);
   };
 
+  visualizeBFS = async () => {
+    const { grid, rows, cols, source, destination } = this.state;
+    var bfs = new BFS(
+      grid,
+      rows,
+      cols,
+      grid[source.x][source.y],
+      grid[destination.x][destination.y]
+    );
+
+    var visNodesList = bfs.findPath();
+
+    var shortestPath = bfs.getShortestPathList();
+    await this.animateVisnodes(visNodesList, shortestPath);
+  };
+
+  visualizeDFS = async () => {
+    const { grid, rows, cols, source, destination } = this.state;
+    var dfs = new DFS(
+      grid,
+      rows,
+      cols,
+      grid[source.x][source.y],
+      grid[destination.x][destination.y]
+    );
+
+    var visNodesList = dfs.findPath();
+    var shortestPath = dfs.getShortestPathList();
+    await this.animateVisnodes(visNodesList, shortestPath);
+  };
+
   animateVisnodes = async (list, shortestPath) => {
     if (typeof list === "undefined" || list.length === 0) {
       // console.log(shortestPath)
@@ -239,6 +272,10 @@ class Algovisualize extends Component {
           await this.visualizeAstar();
         } else if (algorithm === "Greedy") {
           await this.visualizeGreedy();
+        } else if (algorithm === "BFS") {
+          await this.visualizeBFS();
+        } else if (algorithm === "DFS") {
+          await this.visualizeDFS();
         }
       });
     });

@@ -25,7 +25,6 @@ export default class Greedy {
   }
 
   getNodes() {
-    var nodes = [];
     this.grid[this.source.row][this.source.col].f = this.getHeuristicDistance(
       this.source
     );
@@ -36,8 +35,7 @@ export default class Greedy {
         }
       }
     }
-    nodes.push(this.grid[this.source.row][this.source.col]);
-    return nodes;
+    return [this.grid[this.source.row][this.source.col]];
   }
 
   heapify() {
@@ -82,7 +80,7 @@ export default class Greedy {
           y + dely >= 0
         ) {
           if (this.vis[x + delx][y + dely]) return;
-          const neighbour = this.grid[x + delx][y + dely];
+          let neighbour = this.grid[x + delx][y + dely];
           neighbour.prevNode = node;
           this.openSet.push(neighbour);
         }

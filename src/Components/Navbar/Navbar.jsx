@@ -53,6 +53,18 @@ class Navbar extends Component {
             >
               Greedy
             </button>
+            <button
+              className="dropdownbtn"
+              onClick={() => this.changeNavState("BFS")}
+            >
+              BFS
+            </button>
+            <button
+              className="dropdownbtn"
+              onClick={() => this.changeNavState("DFS")}
+            >
+              DFS
+            </button>
           </div>
         </div>
         <div>
