@@ -19,7 +19,7 @@ class Algovisualize extends Component {
         y: 5
       },
       destination: {
-        x: 8,
+        x: 1,
         y: 8
       },
       grid: [],
@@ -295,16 +295,10 @@ class Algovisualize extends Component {
     }
 
     this.setState({
-      rows: 35,
-      cols: 30,
-      source: {
-        x: 5,
-        y: 5
-      },
-      destination: {
-        x: 10,
-        y: 16
-      },
+      rows: this.state.rows,
+      cols: this.state.cols,
+      source: this.state.source,
+      destination: this.state.destination,
       grid: grid,
       onMouseIsPressed: false,
       IsRunning: false,
