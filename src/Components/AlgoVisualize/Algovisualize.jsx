@@ -13,14 +13,14 @@ class Algovisualize extends Component {
     super();
     this.state = {
       rows: 35,
-      cols: 30,
+      cols: 52,
       source: {
-        x: 5,
-        y: 5
+        x: 2,
+        y: 2
       },
       destination: {
         x: 10,
-        y: 16
+        y: 7
       },
       grid: [],
       onMouseIsPressed: false,
@@ -221,7 +221,6 @@ class Algovisualize extends Component {
 
   animateVisnodes = async (list, shortestPath) => {
     if (typeof list === "undefined" || list.length === 0) {
-      // console.log(shortestPath)
       this.animateShortestPath(shortestPath);
       return;
     }
