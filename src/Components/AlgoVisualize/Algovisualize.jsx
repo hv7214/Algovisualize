@@ -62,7 +62,7 @@ class Algovisualize extends Component {
     if (this.state.SourceSelected && classname !== "destination") {
       this.toggleSource(event);
     } else if (this.state.DestSelected && classname !== "source") {
-      this.toggleSource(event);
+      this.toggleDest(event);
     } else {
       this.toggleWall(event);
     }
@@ -70,10 +70,12 @@ class Algovisualize extends Component {
 
   onMouseLeave = event => {
     let classname = event.target.className.split(" ")[1];
-    if (!this.state.SourceSelected && !this.state.SourceSelected) return;
+    console.log(classname);
+    if (!this.state.SourceSelected && !this.state.DestSelected) return;
     if (classname === "source") {
       this.toggleSource(event);
     } else if (classname === "destination") {
+      console.log("c");
       this.toggleDest(event);
     }
   };
