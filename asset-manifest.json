@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/Algovisualize/static/css/main.6ee5f606.chunk.css",
-    "main.js": "/Algovisualize/static/js/main.5356eba1.chunk.js",
-    "main.js.map": "/Algovisualize/static/js/main.5356eba1.chunk.js.map",
-    "runtime-main.js": "/Algovisualize/static/js/runtime-main.93ab8b90.js",
-    "runtime-main.js.map": "/Algovisualize/static/js/runtime-main.93ab8b90.js.map",
-    "static/js/2.691acfa2.chunk.js": "/Algovisualize/static/js/2.691acfa2.chunk.js",
-    "static/js/2.691acfa2.chunk.js.map": "/Algovisualize/static/js/2.691acfa2.chunk.js.map",
-    "index.html": "/Algovisualize/index.html",
-    "precache-manifest.2d9fbb6b595bd42d41dca32cc8fc7a3f.js": "/Algovisualize/precache-manifest.2d9fbb6b595bd42d41dca32cc8fc7a3f.js",
-    "service-worker.js": "/Algovisualize/service-worker.js",
-    "static/css/main.6ee5f606.chunk.css.map": "/Algovisualize/static/css/main.6ee5f606.chunk.css.map"
+    "main.css": "/hv7214/Algovisualize/static/css/main.6ee5f606.chunk.css",
+    "main.js": "/hv7214/Algovisualize/static/js/main.5356eba1.chunk.js",
+    "main.js.map": "/hv7214/Algovisualize/static/js/main.5356eba1.chunk.js.map",
+    "runtime-main.js": "/hv7214/Algovisualize/static/js/runtime-main.01673a8e.js",
+    "runtime-main.js.map": "/hv7214/Algovisualize/static/js/runtime-main.01673a8e.js.map",
+    "static/js/2.691acfa2.chunk.js": "/hv7214/Algovisualize/static/js/2.691acfa2.chunk.js",
+    "static/js/2.691acfa2.chunk.js.map": "/hv7214/Algovisualize/static/js/2.691acfa2.chunk.js.map",
+    "index.html": "/hv7214/Algovisualize/index.html",
+    "precache-manifest.226fa232733dc64ec0aea566a5a267e0.js": "/hv7214/Algovisualize/precache-manifest.226fa232733dc64ec0aea566a5a267e0.js",
+    "service-worker.js": "/hv7214/Algovisualize/service-worker.js",
+    "static/css/main.6ee5f606.chunk.css.map": "/hv7214/Algovisualize/static/css/main.6ee5f606.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.93ab8b90.js",
+    "static/js/runtime-main.01673a8e.js",
     "static/js/2.691acfa2.chunk.js",
     "static/css/main.6ee5f606.chunk.css",
     "static/js/main.5356eba1.chunk.js"
