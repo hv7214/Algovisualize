@@ -19,3 +19,6 @@
 - [ ] Add *random maze* feature.
 - [ ] Improve animations.
 - [ ] Add speed slider for animation.
+
+## License
+[MIT](https://github.com/hv7214/Algovisualize/blob/master/LICENSE)
