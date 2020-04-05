@@ -19,16 +19,20 @@ html {
   align-items: center;
   font-family: "Anonymous Pro";
   font-size: 18px;
-  padding: 5px;
+  padding: 10px;
   margin: 0;
   background-color: rgba(23, 63, 185, 0.87);
 }
 
 .navitems {
-  margin-right: 30px;
+  margin-right: 40px;
   border-radius: 3%;
 }
 
+.slider {
+  width: 10%;
+  color: green;
+}
 .btn {
   font-family: "Anonymous Pro";
   background-color: rgb(126, 223, 126);

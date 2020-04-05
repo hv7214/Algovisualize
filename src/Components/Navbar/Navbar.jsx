@@ -1,18 +1,21 @@
 import React, { Component } from "react";
+import Slider from 'rc-slider';
+import Tooltip from 'rc-tooltip';
 import "./Navbar.css";
+import 'rc-slider/assets/index.css';
 
 class Navbar extends Component {
   state = {
     algorithm: "none",
     visualizebtn: "Visualize",
-    isRunning: false
+    isRunning: false,
+    speedValue: 5,
+    speedName: "Fast"
   };
 
   visualize = () => {
     this.setState({ isRunning: true }, () => console.log(this.state.isRunning));
-    this.props.visualize(this.state.algorithm, () => {
-      console.log("Change");
-    });
+    this.props.visualize(this.state.algorithm);
   };
 
   clear = () => {
@@ -25,6 +28,32 @@ class Navbar extends Component {
   };
 
   render() {
+    const Handle = Slider.Handle;
+    const handle = (props) => {
+    var { value, dragging, index, ...restProps } = props;
+    // custom
+    if(value === 0) { 
+      value = "Fast"
+    }
+    else if (value === 50) { 
+      value = "Normal" 
+    }  
+    else { 
+      value = "Slow"
+    }
+    return (
+      <Tooltip
+        prefixCls="rc-slider-tooltip"
+        overlay={value}
+        visible={dragging}
+        placement="top"
+        key={index}
+      >
+        <Handle value={value} {...restProps} />
+      </Tooltip>
+    );
+    };
+
     return (
       <nav className="nav">
         <div className="navitems" id="homelink">
@@ -67,16 +96,14 @@ class Navbar extends Component {
             </button>
           </div>
         </div>
-        <div>
-          {" "}
-          <button className="navitems btn visualize" onClick={this.visualize}>
-            {" "}
-            {this.state.visualizebtn}
-          </button>
-          <button className="navitems btn" onClick={this.clear}>
-            {" "}
-            Clear
-          </button>
+        <button className="navitems btn visualize" onClick={this.visualize}>
+          {this.state.visualizebtn}
+        </button>
+        <button className="navitems btn" onClick={this.clear}>
+          Clear
+        </button>
+        <div className="navitems slider">
+          <Slider handle={handle} step="50" onChange={this.props.toggleSpeed}/>
         </div>
       </nav>
     );

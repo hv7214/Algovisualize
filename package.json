@@ -5,6 +5,8 @@
   "homepage": "https://hv7214.github.io/Algovisualize/",
   "dependencies": {
     "gh-pages": "^2.1.1",
+    "rc-slider": "^9.2.4",
+    "rc-tooltip": "^4.0.3",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0"

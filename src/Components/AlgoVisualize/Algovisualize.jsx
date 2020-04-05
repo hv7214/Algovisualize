@@ -7,6 +7,7 @@ import BFS from "./Algorithms/BFS";
 import DFS from "./Algorithms/DFS";
 import "./Algovisualize.css";
 import Navbar from "../Navbar/Navbar";
+import {sleep} from "../../helper";
 
 class Algovisualize extends Component {
   constructor(props) {
@@ -28,7 +29,9 @@ class Algovisualize extends Component {
       SourceSelected: false,
       DestSelected: false,
       IsRunning: false,
-      isGridFilled: false
+      isGridFilled: false,
+      speed: 5,
+      speedName: "FAST"
     };
   }
 
@@ -272,39 +275,30 @@ class Algovisualize extends Component {
   };
 
   animateVisnodes = async (list, shortestPath) => {
-    if (typeof list === "undefined" || list.length === 0) {
-      this.animateShortestPath(shortestPath);
-      return;
-    }
-
-    var node = list.splice(0, 1)[0];
-    node.isVisited = "true";
-
-    var grid = this.state.grid;
-    grid[node.row][node.col] = node;
-    this.setState({ grid: grid });
-
-    setTimeout(() => {
-      this.animateVisnodes(list, shortestPath);
-    }, 20);
+    while(typeof list !== "undefined" && list.length !== 0) {
+      var node = list.splice(0, 1)[0];
+      node.isVisited = "true";
+      var grid = this.state.grid;
+      grid[node.row][node.col] = node;
+      this.setState({ grid: grid });
+      
+      await sleep(this.state.speed);
+    }  
+    this.animateShortestPath(shortestPath);
   };
 
   animateShortestPath = async shortestPath => {
-    if (typeof shortestPath === "undefined" || shortestPath.length === 0) {
-      this.setState({ IsRunning: false });
-      return;
+    while(typeof shortestPath !== "undefined" && shortestPath.length !== 0) {
+      var node = shortestPath.splice(0, 1)[0];
+      node.isShortest = "true";
+      node.isVisited = "false";
+      var grid = this.state.grid;
+      grid[node.row][node.col] = node;
+      this.setState({ grid: grid });
+
+      await sleep(this.state.speed);
     }
-    var node = shortestPath.splice(0, 1)[0];
-    node.isShortest = "true";
-    node.isVisited = "false";
-
-    var grid = this.state.grid;
-    grid[node.row][node.col] = node;
-    this.setState({ grid: grid });
-
-    setTimeout(() => {
-      this.animateShortestPath(shortestPath);
-    }, 100);
+    this.setState({ IsRunning: false });
   };
 
   runChecks = algorithm => {
@@ -356,10 +350,27 @@ class Algovisualize extends Component {
       isGridFilled: false
     });
   };
+  
+  toggleSpeed = async (value) => {
+    var name = "";
+    if(value === 0) { 
+      value = 5;
+      name = "FAST"
+    }
+    else if(value === 50) { 
+      value = 100;
+      name = "NORMAL"
+    }
+    else { 
+      value = 300;
+      name = "SLOW"
+    }
+    this.setState({ speed: value, speedName: name})
+  }
   render() {
     return (
       <>
-        <Navbar visualize={this.visualize} clear={this.clearGrid} />
+        <Navbar visualize={this.visualize} clear={this.clearGrid} toggleSpeed={this.toggleSpeed}/>
         <div class="info">
           <div class="col">
             ROWS: {this.state.rows}  
@@ -372,6 +383,9 @@ class Algovisualize extends Component {
           </div>
           <div class="col">
             DESTINATION POSITION: ({this.state.destination.x}, {this.state.destination.y}) 
+          </div>
+          <div class="col">
+            SPEED: {this.state.speedName} 
           </div>
         </div>
         <div className="grid">
