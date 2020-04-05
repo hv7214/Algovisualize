@@ -12,16 +12,17 @@ class Algovisualize extends Component {
   constructor(props) {
     super();
     this.state = {
-      rows: 35,
-      cols: 52,
+      rows: 0,
+      cols: 60,
       source: {
-        x: 8,
-        y: 5
+        x: 0,
+        y: 0
       },
       destination: {
-        x: 8,
-        y: 45
+        x: 0,
+        y: 59
       },
+      cellSize: 0,
       grid: [],
       onMouseIsPressed: false,
       SourceSelected: false,
@@ -32,8 +33,15 @@ class Algovisualize extends Component {
   }
 
   componentDidMount() {
-    const grid = this.initgrid();
-    this.setState({ grid: grid });
+    this.setState(
+      {
+        cellSize: window.innerWidth / this.state.cols,
+        rows: Math.floor((window.innerHeight - 250) * this.state.cols / window.innerWidth)
+      },
+      () => {
+        const grid = this.initgrid();
+        this.setState({ grid: grid });
+      })
   }
 
   onMouseDown = event => {
@@ -83,6 +91,7 @@ class Algovisualize extends Component {
   createNode = (
     row,
     col,
+    cellSize,
     isSource,
     isDestination,
     isWall,
@@ -92,6 +101,7 @@ class Algovisualize extends Component {
     return {
       row: row,
       col: col,
+      cellSize: cellSize,
       onMouseUp: this.onMouseUp,
       onMouseDown: this.onMouseDown,
       onMouseEnter: this.onMouseEnter,
@@ -122,15 +132,7 @@ class Algovisualize extends Component {
     var toggleWall = "true";
     if (grid[r][c].isWall === "true") toggleWall = "false";
 
-    grid[r][c] = this.createNode(
-      r,
-      c,
-      "false",
-      "false",
-      toggleWall,
-      "false",
-      "false"
-    );
+    grid[r][c].isWall = toggleWall
 
     this.setState({ grid: grid });
   };
@@ -148,15 +150,7 @@ class Algovisualize extends Component {
 
     if (grid[r][c].isSource === "true") toggleSource = "false";
 
-    grid[r][c] = this.createNode(
-      r,
-      c,
-      toggleSource,
-      "false",
-      "false",
-      "false",
-      "false"
-    );
+    grid[r][c].isSource = toggleSource
 
     this.setState({ source: { x: r, y: c }, grid: grid });
   };
@@ -174,15 +168,7 @@ class Algovisualize extends Component {
 
     if (grid[r][c].isDestination === "true") toggleDest = "false";
 
-    grid[r][c] = this.createNode(
-      r,
-      c,
-      "false",
-      toggleDest,
-      "false",
-      "false",
-      "false"
-    );
+    grid[r][c].isDestination = toggleDest
 
     this.setState({ destination: { x: r, y: c }, grid: grid });
   };
@@ -193,7 +179,7 @@ class Algovisualize extends Component {
       var row = [];
       for (var j = 0; j < this.state.cols; j++) {
         row.push(
-          this.createNode(i, j, "false", "false", "false", "false", "false")
+          this.createNode(i, j, this.state.cellSize, "false", "false", "false", "false", "false")
         );
       }
       grid.push(row);
@@ -201,27 +187,11 @@ class Algovisualize extends Component {
 
     const sx = this.state.source.x;
     const sy = this.state.source.y;
-    grid[sx][sy] = this.createNode(
-      sx,
-      sy,
-      "true",
-      "false",
-      "false",
-      "false",
-      "false"
-    );
+    grid[sx][sy].isSource = "true"
 
     const dx = this.state.destination.x;
     const dy = this.state.destination.y;
-    grid[dx][dy] = this.createNode(
-      dx,
-      dy,
-      "false",
-      "true",
-      "false",
-      "false",
-      "false"
-    );
+    grid[dx][dy].isDestination = "true"
 
     return grid;
   };
@@ -389,8 +359,6 @@ class Algovisualize extends Component {
   };
 
   render() {
-    const space = " ";
-
     return (
       <>
         <Navbar visualize={this.visualize} clear={this.clearGrid} />
@@ -402,6 +370,7 @@ class Algovisualize extends Component {
                   <Node
                     row={node.row}
                     col={node.col}
+                    size={node.cellSize}
                     key={`${node.row}-${node.col}`}
                     isSource={node.isSource}
                     isDestination={node.isDestination}
@@ -413,9 +382,6 @@ class Algovisualize extends Component {
                     onMouseUp={this.onMouseUp}
                     onMouseLeave={this.onMouseLeave}
                   />
-                  <span className="space" key={`space-${node.row}-${node.col}`}>
-                    {space}
-                  </span>
                 </>
               );
             });

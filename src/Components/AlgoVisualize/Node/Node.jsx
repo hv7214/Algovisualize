@@ -4,6 +4,7 @@ import "./Node.css";
 class Node extends Component {
   render() {
     const {
+      size,
       col,
       row,
       isSource,
@@ -28,6 +29,7 @@ class Node extends Component {
       <div
         className={`node ${className}`}
         id={`node-${row}-${col}`}
+        style={{height: `${size}px`, width: `${size}px`}}
         onMouseDown={onMouseDown}
         onMouseEnter={onMouseEnter}
         onMouseUp={onMouseUp}
