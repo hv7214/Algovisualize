@@ -252,7 +252,6 @@ class Algovisualize extends Component {
     );
 
     var visNodesList = bfs.findPath();
-
     var shortestPath = bfs.getShortestPathList();
     await this.animateVisnodes(visNodesList, shortestPath);
   };
@@ -357,11 +356,24 @@ class Algovisualize extends Component {
       isGridFilled: false
     });
   };
-
   render() {
     return (
       <>
         <Navbar visualize={this.visualize} clear={this.clearGrid} />
+        <div class="info">
+          <div class="col">
+            ROWS: {this.state.rows}  
+          </div>
+          <div class="col">
+            COLUMNS: {this.state.cols}
+          </div>
+          <div class="col">
+            SOURCE POSITION: ({this.state.source.x}, {this.state.source.y}) 
+          </div>
+          <div class="col">
+            DESTINATION POSITION: ({this.state.destination.x}, {this.state.destination.y}) 
+          </div>
+        </div>
         <div className="grid">
           {this.state.grid.map(row => {
             return row.map(node => {
