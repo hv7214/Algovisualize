@@ -1,6 +1,6 @@
 # ✨ Algovisualize
 
-![algovis](https://user-images.githubusercontent.com/42354803/69748066-8f35da00-116d-11ea-8cab-8686ffacbb13.gif)
+![algovis](https://user-images.githubusercontent.com/42354803/78632823-a4f6a100-78bd-11ea-8bc9-5e6ac36a24d2.gif)
 
 ## ♎ Algorithms
 - **A-Star**
@@ -17,8 +17,9 @@
 ## 🎯 Todo-List
 - [ ] Improve UI/UX.
 - [ ] Add *random maze* feature.
-- [ ] Improve animations.
-- [ ] Add speed slider for animation.
+- [ ] Add more algorithms(Sorting, Binary search, etc).
+- [x] Add speed slider for animation.
+- [ ] Add weights feature to the graph. 
 
 ## License
 [MIT](https://github.com/hv7214/Algovisualize/blob/master/LICENSE)
