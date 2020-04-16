@@ -12,6 +12,7 @@
 ## 🚀 How to use
 - Draw walls by dragging mouse while left clicking.
 - Pick desired algorithm.
+- Choose desired animation speed using the slider.
 - Hit **Visualize**.
 
 ## 🎯 Todo-List
