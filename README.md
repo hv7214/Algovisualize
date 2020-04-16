@@ -1,4 +1,4 @@
-# ✨ Algovisualize
+# ✨ Algovisualizer
 
 ![algovis](https://user-images.githubusercontent.com/42354803/78632823-a4f6a100-78bd-11ea-8bc9-5e6ac36a24d2.gif)
 
